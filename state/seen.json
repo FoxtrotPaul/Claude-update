@@ -1,1 +1,20 @@
-{}
+{
+ "authors": {},
+ "cursors": {},
+ "hb": "2026-11-19T14:55:09+00:00",
+ "health": {
+  "hn": {
+   "alerted": false,
+   "fails": 0
+  },
+  "mastodon": {
+   "alerted": false,
+   "fails": 0
+  },
+  "reddit": {
+   "alerted": false,
+   "fails": 4
+  }
+ },
+ "seen": {}
+}
