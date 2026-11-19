@@ -1,0 +1,56 @@
+name: referral-monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: referral-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Poll sources
+        run: python monitor.py --duration 240 --interval 60
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_APP_PASSWORD: ${{ secrets.BSKY_APP_PASSWORD }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          TWITTERAPI_IO_KEY: ${{ secrets.TWITTERAPI_IO_KEY }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_SUBS: ${{ vars.REDDIT_SUBS }}
+          EXTRA_RSS_URLS: ${{ vars.EXTRA_RSS_URLS }}
+          BLOCKED_AUTHORS: ${{ vars.BLOCKED_AUTHORS }}
+          MAX_AGE_HOURS: ${{ vars.MAX_AGE_HOURS }}
+          VALIDATE: ${{ vars.VALIDATE }}
+
+      - name: Commit state (only if it changed)
+        run: |
+          if ! git diff --quiet -- state/seen.json; then
+            git config user.name "referral-monitor"
+            git config user.email "referral-monitor@users.noreply.github.com"
+            git add state/seen.json
+            git commit -m "state: update seen codes"
+            git push || (git pull --rebase && git push)
+          fi
