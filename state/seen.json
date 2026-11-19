@@ -12,8 +12,12 @@
    "fails": 0
   },
   "reddit": {
+   "alerted": true,
+   "fails": 6
+  },
+  "rss": {
    "alerted": false,
-   "fails": 4
+   "fails": 0
   }
  },
  "seen": {}
