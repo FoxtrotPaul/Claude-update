@@ -3,6 +3,10 @@
  "cursors": {},
  "hb": "2026-11-19T14:55:09+00:00",
  "health": {
+  "exa": {
+   "alerted": false,
+   "fails": 0
+  },
   "hn": {
    "alerted": false,
    "fails": 0
