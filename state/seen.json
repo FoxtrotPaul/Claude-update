@@ -1,5 +1,12 @@
 {
- "authors": {},
+ "authors": {
+  "web:www.threads.com": [
+   [
+    "W8DL3TaPYw",
+    "2026-11-22T22:45:04+00:00"
+   ]
+  ]
+ },
  "cursors": {},
  "hb": "2026-11-19T14:55:09+00:00",
  "health": {
@@ -24,5 +31,11 @@
    "fails": 0
   }
  },
- "seen": {}
+ "seen": {
+  "W8DL3TaPYw": {
+   "s": "web",
+   "st": "alerted",
+   "t": "2026-11-22T22:45:04+00:00"
+  }
+ }
 }
